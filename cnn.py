@@ -4,7 +4,7 @@ import torch
 
 class CNN(nn.Module):
     """
-    CNN to extract global features
+    CNN to extract local features
     """
 
     def __init__(self,
