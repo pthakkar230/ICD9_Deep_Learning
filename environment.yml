@@ -1,0 +1,17 @@
+name: cs6250-finalproject
+channels:
+  - defaults
+dependencies:
+  - python=3.9
+  - matplotlib
+  - tqdm
+  - jupyter
+  - pip
+  - ipykernel
+  - numpy
+  - pandas
+  - pip:
+    - datetime
+    - torch
+    - torchtext
+    - gensim
