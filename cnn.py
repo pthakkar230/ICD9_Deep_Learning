@@ -11,8 +11,11 @@ class CNN(nn.Module):
                  word_embedding_size=100,
                  convolution_kernel_sizes=(3, 4, 5),
                  convolution_filter_numbers=(64, 64, 64),
-                 dropout_rate=0.75):
+                 dropout_rate=0.75,
+                 device='cpu'):
         super(CNN, self).__init__()
+
+        self.device = device
 
         self.conv1 = nn.Conv1d(
             in_channels=word_embedding_size, 
@@ -36,7 +39,11 @@ class CNN(nn.Module):
         self.dropout = nn.Dropout(p=dropout_rate)
         self.relu = nn.ReLU()
 
+        # self.fc = nn.Linear(64 * 3, num_labels)
+
     def forward(self, X):
+
+        X = X.to(self.device)
 
         out1 = self.pool(self.relu(self.conv1(X))).squeeze(2)
         out2 = self.pool(self.relu(self.conv2(X))).squeeze(2)
