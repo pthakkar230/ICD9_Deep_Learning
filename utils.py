@@ -113,7 +113,7 @@ def plot_curves(train, valid, metric_name, filename, output_dir = './'):
     plt.ylabel(metric_name)
     plt.legend()
     plt.title(metric_name + ' Curve - ' + filename)
-    plt.savefig(os.path.join(output_dir, filename+'.png'))
+    plt.savefig(os.path.join(output_dir, filename+ "_" + metric_name + '.png'))
     plt.show()
 
 def train_and_plot(model, optimizer, scheduler, criterion, train_loader, valid_loader, device, filename='', epochs=10, threshold=0.2):

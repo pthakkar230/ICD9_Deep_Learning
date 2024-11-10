@@ -13,7 +13,7 @@ class ICD9DeepLearningModel(nn.Module):
     def __init__(self, word_embedding_size=100,
                  doc_embedding_size=128,
                  d2v_hidden_layer_size=64,
-                 dv2_fc_output_size=64,
+                 dv2_fc_output_size=128,
                  convolution_kernel_sizes=(3, 4, 5),
                  convolution_filter_numbers=(64, 64, 64),
                  d2v_dropout_rate = 0.75,

@@ -7,7 +7,7 @@ class D2VFullyConnectedLayer(nn.Module):
     CNN to extract local features
     """
 
-    def __init__(self, input_size=128, hidden_size=64, output_size=64, dropout_rate=0.75, device='cpu'):
+    def __init__(self, input_size=128, hidden_size=64, output_size=128, dropout_rate=0.75, device='cpu'):
         super(D2VFullyConnectedLayer, self).__init__()
         self.device = device
         self.fc1 = nn.Linear(input_size, hidden_size)
