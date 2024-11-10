@@ -31,7 +31,7 @@ class ICD9DeepLearningModel(nn.Module):
             input_size=doc_embedding_size, 
             hidden_size=d2v_hidden_layer_size,
             output_size=dv2_fc_output_size,
-            dropout_rate=1-d2v_dropout_rate,
+            dropout_rate=d2v_dropout_rate,
             device=self.device
         )
 
@@ -39,7 +39,7 @@ class ICD9DeepLearningModel(nn.Module):
             word_embedding_size=word_embedding_size,
             convolution_kernel_sizes=convolution_kernel_sizes,
             convolution_filter_numbers=convolution_filter_numbers,
-            dropout_rate=1-cnn_dropout_rate,
+            dropout_rate=cnn_dropout_rate,
             device=self.device
         )
 

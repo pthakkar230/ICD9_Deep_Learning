@@ -18,14 +18,10 @@ class ICD9_Dataset(Dataset):
        return self.X[index], self.y[index]
     
 def score_model(trues, outputs, threshold=0.2):
-  # Score CNN Part model function
-  # Default threshold = 0.2
   with torch.no_grad():
     outputs = np.array(outputs.cpu()).ravel()
     trues = np.array(trues.cpu()).ravel()
     preds = np.array([outputs>=threshold], dtype=np.float32).ravel()
-
-    # correct_predictions = (trues == preds).sum()
 
     true_positives = (
       trues[trues==1] == preds[trues==1]).sum()
