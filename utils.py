@@ -19,8 +19,8 @@ class ICD9_Dataset(Dataset):
     
 def score_model(trues, outputs, threshold=0.2):
   with torch.no_grad():
-    outputs = np.array(outputs.cpu()).ravel()
-    trues = np.array(trues.cpu()).ravel()
+    outputs = np.array(outputs).ravel()
+    trues = np.array(trues).ravel()
     preds = np.array([outputs>=threshold], dtype=np.float32).ravel()
 
     true_positives = (
@@ -63,7 +63,7 @@ def evaluate(model, data_loader, criterion, device, threshold):
             loss = criterion(out.to(device), y.float())
             losses.append(loss.item())
 
-            metrics = score_model(y, out, threshold)
+            metrics = score_model(y.cpu(), out.cpu(), threshold)
             metrics_ls.append(metrics)
 
     accuracy, prec, rec, f1 = zip(*metrics_ls)
@@ -88,7 +88,7 @@ def train(model, data_loader, criterion, optimizer, device, threshold):
 
         losses.append(loss.item())
 
-        metrics = score_model(y, outputs, threshold=threshold)
+        metrics = score_model(y.cpu(), outputs.cpu(), threshold=threshold)
         metrics_ls.append(metrics)
 
         loss.backward()
