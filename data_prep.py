@@ -52,11 +52,11 @@ labels_df = labels_query.to_dataframe()
 # torch.save(labels, LABELS_OUTPUT)
 
 # Multi hot encode ICD-9 Codes
-# print("Producing multi-hot encoded ICD-9 code labels...")
-# multi_hot = pd.crosstab(labels_df['HADM_ID'], labels_df['diagnosis'])
+print("Producing multi-hot encoded ICD-9 code labels...")
+multi_hot = pd.crosstab(labels_df['HADM_ID'], labels_df['diagnosis'])
 
-# labels = torch.tensor(multi_hot.values, dtype=torch.float)
-# torch.save(labels, LABELS_OUTPUT)
+labels = torch.tensor(multi_hot.values, dtype=torch.float)
+torch.save(labels, LABELS_OUTPUT)
 
 # Preprocess visit notes
 print("\nW2V")
