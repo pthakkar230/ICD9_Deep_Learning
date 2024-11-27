@@ -8,6 +8,7 @@ import google.auth
 from google.cloud import bigquery
 from queries import LABELS_QUERY, DATA_QUERY
 
+# Set to false if you don't want to recreate Gensim models
 RETRAIN = True
 
 SAMPLE_DATA_FILE = 'data/sample.csv'
@@ -80,7 +81,7 @@ for i in range(len(sentences)):
     embedded_words = torch.zeros((MAXIMUM_LENGTH, W2V_VECTOR_SIZE))
     for j in range(MAXIMUM_LENGTH):
         try:
-            vector = model.wv[sentences[i][j]]
+            vector = torch.tensor(model.wv[sentences[i][j]])
         except:
             vector = torch.zeros(W2V_VECTOR_SIZE)
         embedded_words[j] = vector
