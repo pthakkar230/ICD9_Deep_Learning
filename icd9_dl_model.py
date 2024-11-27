@@ -19,7 +19,8 @@ class ICD9DeepLearningModel(nn.Module):
                  d2v_dropout_rate = 0.75,
                  cnn_dropout_rate=0.75,
                  num_labels=1,
-                 device='cpu'):
+                 device='cpu',
+                 specific_model=None):
         super(ICD9DeepLearningModel, self).__init__()
 
         self.device = device
@@ -47,8 +48,17 @@ class ICD9DeepLearningModel(nn.Module):
         for i in convolution_filter_numbers:
             total_output_size_from_cnn += i
 
+        self.specific_model = None
+        if specific_model == "cnn":
+            self.specific_model = specific_model
+            dv2_fc_output_size = 0
+        elif specific_model == "d2v":
+            self.specific_model = specific_model
+            total_output_size_from_cnn = 0
 
         self.fc = nn.Linear(total_output_size_from_cnn + dv2_fc_output_size, num_labels)
+
+        
 
 
     def forward(self, x):
@@ -57,9 +67,13 @@ class ICD9DeepLearningModel(nn.Module):
         x1 = x1.to(self.device)
         x2 = x2.to(self.device)
 
-        x1 = self.d2v_fc(x1)
-        x2 = self.cnn(x2)
-
-        out = torch.cat((x1, x2), 1)
+        if self.specific_model == "d2v":
+            out = self.d2v_fc(x1)
+        elif self.specific_model == "cnn":
+            out = self.cnn(x2)
+        else:
+            x1 = self.d2v_fc(x1)
+            x2 = self.cnn(x2)
+            out = torch.cat((x1, x2), 1)
         out = self.fc(out)
         return out
