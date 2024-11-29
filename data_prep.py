@@ -12,6 +12,8 @@ from queries import LABELS_QUERY, DATA_QUERY
 RETRAIN = True
 
 SAMPLE_DATA_FILE = 'data/sample.csv'
+QUERY_DATA = 'data/visit_notes.csv'
+LABELS_DATA = 'data/labels.csv'
 LABELS_OUTPUT = 'data/labels_multi_hot.pt'
 W2V_EMBEDDED_VISIT_NOTES_OUTPUT = 'data/w2v_embedded_visit_notes.pt'
 D2V_EMBEDDED_VISIT_NOTES_OUTPUT = 'data/d2v_embedded_visit_notes.pt'
@@ -37,13 +39,17 @@ client = bigquery.Client(credentials=credentials, project=PROJECT)
 # df = df[0:20000]
 
 print("Reading visit notes data from BigQuery ", "...")
-data_query = client.query(DATA_QUERY)
-df = data_query.to_dataframe()
+# data_query = client.query(DATA_QUERY)
+# df = data_query.to_dataframe()
+# df.to_csv(QUERY_DATA, index=False)
+df = pd.read_csv(QUERY_DATA)  
+
 
 print("Reading labels data from BigQuery ", "...")
-labels_query = client.query(LABELS_QUERY)
-labels_df = labels_query.to_dataframe()
-
+# labels_query = client.query(LABELS_QUERY)
+# labels_df = labels_query.to_dataframe()
+# labels_df.to_csv(LABELS_DATA, index=False)
+labels_df = pd.read_csv(LABELS_DATA)  
 
 # One hot encode ICD-9 Codes
 # print("Producing one-hot encoded ICD-9 code labels...")
