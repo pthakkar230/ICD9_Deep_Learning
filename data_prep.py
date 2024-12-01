@@ -9,19 +9,19 @@ from google.cloud import bigquery
 from queries import LABELS_QUERY, DATA_QUERY
 
 # Set to false if you don't want to recreate Gensim models
-RETRAIN = True
+RETRAIN = False
 
 SAMPLE_DATA_FILE = 'data/sample.csv'
 QUERY_DATA = 'data/visit_notes.csv'
 LABELS_DATA = 'data/labels.csv'
-LABELS_OUTPUT = 'data/labels_multi_hot.pt'
-W2V_EMBEDDED_VISIT_NOTES_OUTPUT = 'data/w2v_embedded_visit_notes.pt'
-D2V_EMBEDDED_VISIT_NOTES_OUTPUT = 'data/d2v_embedded_visit_notes.pt'
+LABELS_OUTPUT = 'data2/labels_multi_hot.pt'
+W2V_EMBEDDED_VISIT_NOTES_OUTPUT = 'data2/w2v_embedded_visit_notes.pt'
+D2V_EMBEDDED_VISIT_NOTES_OUTPUT = 'data2/d2v_embedded_visit_notes.pt'
 W2V_VECTOR_SIZE = 100
 D2V_VECTOR_SIZE = 128
 EPOCHS = 10
-MAXIMUM_LENGTH = 700
-BATCH_SIZE = 1000  # Process 10 sentences at a time
+MAXIMUM_LENGTH = 1500 #700
+BATCH_SIZE = 1000  # Process 1000 sentences at a time
 W2V_MIN_COUNT = 1
 D2V_MIN_COUNT = 1
 PROJECT = 'serious-water-441620-d1'
@@ -29,6 +29,7 @@ PROJECT = 'serious-water-441620-d1'
 
 # https://cloud.google.com/docs/authentication/provide-credentials-adc#how-to
 # ./google-cloud-sdk/bin/gcloud auth application-default login
+# Set up auth to Google Big Query using connection from Physionet
 print("Setting up Google Auth")
 credentials, project = google.auth.default()
 client = bigquery.Client(credentials=credentials, project=PROJECT)
@@ -42,6 +43,8 @@ print("Reading visit notes data from BigQuery ", "...")
 # data_query = client.query(DATA_QUERY)
 # df = data_query.to_dataframe()
 # df.to_csv(QUERY_DATA, index=False)
+
+# Read already saved data
 df = pd.read_csv(QUERY_DATA)  
 
 
@@ -49,13 +52,9 @@ print("Reading labels data from BigQuery ", "...")
 # labels_query = client.query(LABELS_QUERY)
 # labels_df = labels_query.to_dataframe()
 # labels_df.to_csv(LABELS_DATA, index=False)
-labels_df = pd.read_csv(LABELS_DATA)  
 
-# One hot encode ICD-9 Codes
-# print("Producing one-hot encoded ICD-9 code labels...")
-# one_hot_encoded = pd.get_dummies(df['icd9_code'])
-# labels = torch.tensor(one_hot_encoded.values, dtype=torch.float)
-# torch.save(labels, LABELS_OUTPUT)
+# Read already saved data
+labels_df = pd.read_csv(LABELS_DATA)  
 
 # Multi hot encode ICD-9 Codes
 print("Producing multi-hot encoded ICD-9 code labels...")
